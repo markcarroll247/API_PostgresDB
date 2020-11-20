@@ -1,5 +1,6 @@
 package com.example.student.controller;
 
+import com.example.student.Service.StudentService;
 import com.example.student.model.Student;
 import com.example.student.dao.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,52 +13,42 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v2/student")
 public class StudentController {
 
-    @Autowired
-    private StudentRepository studentRepository;
 
+    @Autowired
+    private StudentService studentService;
 
     @CrossOrigin
     @PostMapping
     public Student createStudent(@RequestBody Student student){
-        return studentRepository.save(student);
+        return studentService.createStudent(student);
     }
 
 
     @CrossOrigin
     @GetMapping
-    public Page<Student> listStudets(Pageable pageable){
-        return studentRepository.findAll(pageable);
+    public Page<Student> listStudents(Pageable pageable){
+        return studentService.listStudents(pageable);
     }
 
 
     @CrossOrigin
     @GetMapping(path = "{id}")
     public Student getStudentById(@PathVariable Long id){
-         return studentRepository.getOne(id);
+         return studentService.getStudentById(id);
     }
 
 
     @CrossOrigin
     @DeleteMapping(path = "{id}")
     public ResponseEntity<?> deleteStudentById(@PathVariable Long id){
-        return studentRepository.findById(id)
-                .map(student -> {
-                    studentRepository.delete(student);
-                    return ResponseEntity.ok().build();
-                }).orElse( null);
+        return studentService.deleteStudentById(id);
     }
 
 
     @CrossOrigin
     @PutMapping(path = "{id}")
     public ResponseEntity<?> updateStudentById(@RequestBody Student newStudent, @PathVariable long id ){
-        return studentRepository.findById(id)
-                .map(student -> {
-                    student.setFirstname(newStudent.getFirstname());
-                    student.setSurname(newStudent.getSurname());
-                    studentRepository.save(student);
-                    return ResponseEntity.ok(student);
-                }).orElse( null);
+        return studentService.updateStudentById(newStudent, id);
     }
 
 }
