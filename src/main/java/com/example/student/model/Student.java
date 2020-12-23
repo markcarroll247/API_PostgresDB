@@ -23,4 +23,12 @@ public class Student {
     private Long id;
     private String firstname;
     private String surname;
+
+    public Student(Long id, String firstname, String surname) {
+        this.id = id;
+        this.firstname = firstname;
+        this.surname = surname;
+    }
+
+
 }
