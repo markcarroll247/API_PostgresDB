@@ -43,7 +43,7 @@ class StudentControllerTest {
                 .contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(request)
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("{id:1,firstname:Mark,surname:Carroll}"));
     }
 
@@ -92,8 +92,7 @@ class StudentControllerTest {
                 .accept(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(request)
-                .andExpect(status().isOk())
-                .andExpect(content().string("DELETED"));
+                .andExpect(status().isNoContent());
     }
 
     @Test

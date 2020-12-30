@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.Servlet;
 import java.net.URI;
 import java.util.List;
 
@@ -21,10 +20,10 @@ public class StudentController {
 
     @CrossOrigin
     @PostMapping("api/v2/student")
-    public Student createStudent(@RequestBody Student student) {
-        return studentService.createStudent(student);
-//        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(student.getId()).toUri();
-//        return ResponseEntity.created(location).body(student);
+    public ResponseEntity createStudent(@RequestBody Student student) {
+        studentService.createStudent(student);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(student.getId()).toUri();
+        return ResponseEntity.created(location).body(student);
     }
 
 
@@ -44,9 +43,9 @@ public class StudentController {
 
     @CrossOrigin
     @DeleteMapping("api/v2/student/{id}")
-    public String deleteStudentById(@PathVariable Long id){
+    public ResponseEntity deleteStudentById(@PathVariable Long id){
         studentService.deleteStudentById(id);
-        return "DELETED";
+        return ResponseEntity.noContent().build();
     }
 
 
